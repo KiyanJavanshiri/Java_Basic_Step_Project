@@ -1,7 +1,29 @@
 package flightreservation;
 
+import flightreservation.controller.FlightsController;
+import flightreservation.enums.Destination;
+import flightreservation.models.Flight;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 public class Main {
     public static void main(String[] args) {
+//        Flight flight = new Flight("RND123", Destination.BEIJING, LocalDate.now(), LocalTime.now(),10);
+//        System.out.println(flight);
+
+        FlightsController flightsController = new FlightsController();
+
+        List<Flight> flights = flightsController.generateListOfFlight();
+        List<Flight> flightsToday = flights.stream()
+                .filter(flight -> flight.getFlightDate().equals(LocalDate.now()))
+                .collect(Collectors.toList());
+        flightsToday.forEach(flight -> System.out.println(flight));
+
 
     }
 }
