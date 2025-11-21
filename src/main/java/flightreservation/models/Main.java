@@ -3,6 +3,7 @@ package flightreservation.models;
 import flightreservation.controller.BookingController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -10,11 +11,11 @@ import java.util.Scanner;
 public class Main {
     private static BookingController bookingController = new BookingController();
     private static Scanner scanner = new Scanner(System.in);
-    private static final List<Flight> flights = Arrays.asList(
+    private static final List<Flight> flights = new ArrayList<>((Arrays.asList(
             new Flight(
                     "London",
                     LocalDateTime.now(),
-                    45
+                    453
             ),
             new Flight(
                     "Paris",
@@ -36,15 +37,15 @@ public class Main {
                     LocalDateTime.now(),
                     45
             )
-    );
+    )));
 
-    private static List<Passenger> passengers = Arrays.asList(
+    private static List<Passenger> passengers = new ArrayList<>(Arrays.asList(
             new Passenger("Oleksandr", "Melnyk"),
             new Passenger("Iryna", "Koval"),
             new Passenger("Dmytro", "Shevchenko"),
             new Passenger("Viktoriia", "Bondarenko"),
             new Passenger("Serhii", "Tkachenko")
-    );
+    ));
 
     public static void main(String[] args) {
         System.out.println("Hello to our app");
@@ -68,17 +69,19 @@ public class Main {
                     String lastName = scanner.nextLine();
                     Passenger owner = new Passenger(firstName, lastName);
 //                    passengers.add(owner);
-                    boolean isCreated = bookingController.addBooking(passengers, owner, flights.get(1));
-                    if(isCreated) System.out.println("Booking added!");
+                    bookingController.addBooking(passengers, owner, flights.get(1));
                     break;
                 case 2:
                     System.out.println("enter flight id:");
                     int bookingId = scanner.nextInt();
-                    boolean isDeleted = bookingController.deleteBooking(bookingId);
-                    if (isDeleted) System.out.println("Booking is deleted!");
+                    bookingController.deleteBooking(bookingId);
                     break;
                 case 3:
-                    bookingController.displayUserBookings();
+                    System.out.println("Your name: ");
+                    String PassengerName = scanner.nextLine();
+                    System.out.println("Your surname: ");
+                    String PassengerSurname = scanner.nextLine();
+                    bookingController.displayUserBookings(PassengerName, PassengerSurname);
                     break;
             }
         }

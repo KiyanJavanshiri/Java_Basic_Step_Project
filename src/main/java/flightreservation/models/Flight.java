@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Flight implements Serializable {
-    private int id;                     // Уникальный идентификатор рейса
-    private String destination;         // Место назначения
-    private LocalDateTime departureTime; // Дата и время вылета
-    private int availableSeats;         // Количество свободных мест
+    private int id;
+    private String destination;
+    private LocalDateTime departureTime;
+    private int availableSeats;
 
-    // Конструктор
     public Flight(String destination, LocalDateTime departureTime, int availableSeats) {
         this.id = (int) (Math.random() * 10000);
         this.destination = destination;
@@ -17,7 +16,6 @@ public class Flight implements Serializable {
         this.availableSeats = availableSeats;
     }
 
-    // Геттеры и сеттеры
     public int getId() {
         return id;
     }
@@ -50,7 +48,6 @@ public class Flight implements Serializable {
         this.availableSeats = availableSeats;
     }
 
-    // Удобный метод для уменьшения количества мест при бронировании
     public void reserveSeats(int seats) {
         if (seats <= availableSeats) {
             availableSeats -= seats;

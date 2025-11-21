@@ -15,28 +15,31 @@ public class BookingDao {
     }
 
     public List<Booking> getAllBookings() {
-        return  new ArrayList<>(bookings);
+        return new ArrayList<>(bookings);
     }
 
     public boolean addBooking(Booking booking) {
-        this.bookings.add(booking);
-        this.saveToFile();
-        return true;
+        return this.bookings.add(booking);
     }
 
     public boolean deleteBooking(Booking booking) {
-        bookings.remove(booking);
-        this.saveToFile();
-        return true;
+       return bookings.remove(booking);
     }
 
     private void init() {
         String filePath = "src/main/java/flightreservation/db/";
-        String fileName = "bookings.txt";
+        String fileName = "bookings.dat";
+        File file = new File(filePath + fileName);
+
+        if(!file.exists()) {
+            this.bookings = new ArrayList<>();
+            return;
+        }
+
         try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath + fileName))) {
             bookings = (List<Booking>) inputStream.readObject();
             System.out.println("File read");
-        } catch(FileNotFoundException ex) {
+        } catch(EOFException ex) {
             ex.printStackTrace();
             this.bookings = new ArrayList<>();
         } catch (IOException | ClassNotFoundException ex) {
@@ -46,7 +49,7 @@ public class BookingDao {
 
     public void saveToFile() {
         String filePath = "src/main/java/flightreservation/db/";
-        String fileName = "bookings.txt";
+        String fileName = "bookings.dat";
         try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath + fileName))) {
             outputStream.writeObject(bookings);
             System.out.println("File read");

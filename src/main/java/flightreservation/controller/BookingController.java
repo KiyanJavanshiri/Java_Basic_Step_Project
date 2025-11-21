@@ -14,19 +14,15 @@ public class BookingController {
         return this.bookingService.getAllBookings();
     }
 
-    public void displayUserBookings() {
-        this.bookingService.displayUserBookings();
+    public void displayUserBookings(String firstName, String lastName) {
+        this.bookingService.displayUserBookings(firstName, lastName);
     }
 
-    public boolean addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
-        return this.bookingService.addBooking(passengers, bookingOwner, flight);
+    public void addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
+        this.bookingService.addBooking(passengers, bookingOwner, flight);
     }
 
-    public boolean deleteBooking(int id) {
-        return this.bookingService.deleteBooking(id);
-    }
-
-    public List<Booking> getPassengerBookings(String firstName, String lastName) {
-        return this.bookingService.getPassengerBookings(firstName, lastName);
+    public void deleteBooking(int id) {
+        this.bookingService.deleteBooking(id);
     }
 }

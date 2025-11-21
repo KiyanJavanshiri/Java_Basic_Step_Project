@@ -16,8 +16,20 @@ public class BookingService {
         return this.bookingDao.getAllBookings();
     }
 
-    public void displayUserBookings() {
-        List<Booking> bookings = this.bookingDao.getAllBookings();
+    public void displayUserBookings(String firstName, String lastName) {
+        List<Booking> bookings = this.getAllBookings().stream().filter((booking) -> {
+            boolean isAppropriate = false;
+            if(booking.getBookingOwner().getFirstName().equalsIgnoreCase(firstName.trim()) && booking.getBookingOwner().getLastName().equalsIgnoreCase(lastName.trim())) {
+                return true;
+            }
+            for(Passenger passenger : booking.getPassengers()) {
+                if(passenger.getFirstName().equalsIgnoreCase(firstName.trim()) && passenger.getLastName().equalsIgnoreCase(lastName.trim())) {
+                    isAppropriate = true;
+                    break;
+                }
+            }
+            return isAppropriate;
+        }).collect(Collectors.toList());
 
         if(bookings.isEmpty()) {
             System.out.println("Sorry, you have no any bookings yet!");
@@ -29,26 +41,25 @@ public class BookingService {
         }
     }
 
-    public boolean addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
+    public void addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
         Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
-        return this.bookingDao.addBooking(newCreatedBooking);
+        boolean isAdded = this.bookingDao.addBooking(newCreatedBooking);
+        if(isAdded) {
+            this.bookingDao.saveToFile();
+            System.out.println("Booking added successfully");
+        } else {
+            System.out.println("Something went wrong");
+        }
     }
 
-    public boolean deleteBooking(int id) {
+    public void deleteBooking(int id) {
         Booking foundedBooking = this.getAllBookings().stream().filter((booking -> booking.getId() == id)).findFirst().orElseThrow(() -> new BookingNotFoundException());
-        return this.bookingDao.deleteBooking(foundedBooking);
-    }
-
-    public List<Booking> getPassengerBookings(String firstName, String lastName) {
-        return this.getAllBookings().stream().filter((booking) -> {
-            boolean isAppropriate = false;
-            for(Passenger passenger : booking.getPassengers()) {
-                if(passenger.getFirstName().equalsIgnoreCase(firstName) && passenger.getLastName().equalsIgnoreCase(lastName)) {
-                    isAppropriate = true;
-                    break;
-                }
-            }
-            return isAppropriate;
-        }).collect(Collectors.toList());
+        boolean isDeleted = this.bookingDao.deleteBooking(foundedBooking);
+        if(isDeleted) {
+            this.bookingDao.saveToFile();
+            System.out.println("Booking with id " + id + "was deleted");
+        } else {
+            System.out.println("Something went wrong");
+        }
     }
 }
