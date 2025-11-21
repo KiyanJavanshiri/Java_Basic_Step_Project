@@ -42,6 +42,7 @@ public class BookingService {
     }
 
     public void addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
+        // decrementing flight seats
         Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
         boolean isAdded = this.bookingDao.addBooking(newCreatedBooking);
         if(isAdded) {
@@ -56,8 +57,9 @@ public class BookingService {
         Booking foundedBooking = this.getAllBookings().stream().filter((booking -> booking.getId() == id)).findFirst().orElseThrow(() -> new BookingNotFoundException());
         boolean isDeleted = this.bookingDao.deleteBooking(foundedBooking);
         if(isDeleted) {
+            // incrementing flight seats
             this.bookingDao.saveToFile();
-            System.out.println("Booking with id " + id + "was deleted");
+            System.out.println("Booking with id " + id + " was deleted");
         } else {
             System.out.println("Something went wrong");
         }

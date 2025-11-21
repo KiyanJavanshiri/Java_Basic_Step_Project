@@ -40,10 +40,10 @@ public class BookingDao {
             bookings = (List<Booking>) inputStream.readObject();
             System.out.println("File read");
         } catch(EOFException ex) {
-            ex.printStackTrace();
+            System.out.println("DB is empty");
             this.bookings = new ArrayList<>();
         } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+            System.out.println("Failed to reading bookings: " + ex.getMessage());
         }
     }
 
@@ -52,9 +52,9 @@ public class BookingDao {
         String fileName = "bookings.dat";
         try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath + fileName))) {
             outputStream.writeObject(bookings);
-            System.out.println("File read");
+            System.out.println("Bookings saved to file");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Failed to save bookings: " + ex.getMessage());;
         }
     }
 }
