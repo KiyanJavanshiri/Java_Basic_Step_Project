@@ -10,8 +10,8 @@ public class Flight implements Serializable {
     private int availableSeats;         // Количество свободных мест
 
     // Конструктор
-    public Flight(int id, String destination, LocalDateTime departureTime, int availableSeats) {
-        this.id = id;
+    public Flight(String destination, LocalDateTime departureTime, int availableSeats) {
+        this.id = (int) (Math.random() * 10000);
         this.destination = destination;
         this.departureTime = departureTime;
         this.availableSeats = availableSeats;

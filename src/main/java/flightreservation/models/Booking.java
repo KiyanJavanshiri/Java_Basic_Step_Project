@@ -63,7 +63,7 @@ public final class Booking implements Serializable {
 
     @Override
     public String toString() {
-        return "Booking{" +
+        return "{" +
                 "id=" + id +
                 ", flight=" + flight +
                 ", passengers=" + passengers +

@@ -14,6 +14,10 @@ public class BookingController {
         return this.bookingService.getAllBookings();
     }
 
+    public void displayUserBookings() {
+        this.bookingService.displayUserBookings();
+    }
+
     public boolean addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
         return this.bookingService.addBooking(passengers, bookingOwner, flight);
     }

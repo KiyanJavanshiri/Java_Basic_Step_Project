@@ -2,17 +2,13 @@ package flightreservation.dao;
 
 import flightreservation.models.Booking;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDao {
-    private List<Booking> bookings = new ArrayList<>();
+    private List<Booking> bookings;
 
     public BookingDao() {
         init();
@@ -36,10 +32,13 @@ public class BookingDao {
 
     private void init() {
         String filePath = "src/main/java/flightreservation/db/";
-        String fileName = "bookings.dat";
+        String fileName = "bookings.txt";
         try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath + fileName))) {
             bookings = (List<Booking>) inputStream.readObject();
             System.out.println("File read");
+        } catch(FileNotFoundException ex) {
+            ex.printStackTrace();
+            this.bookings = new ArrayList<>();
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -47,7 +46,7 @@ public class BookingDao {
 
     public void saveToFile() {
         String filePath = "src/main/java/flightreservation/db/";
-        String fileName = "bookings.dat";
+        String fileName = "bookings.txt";
         try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath + fileName))) {
             outputStream.writeObject(bookings);
             System.out.println("File read");

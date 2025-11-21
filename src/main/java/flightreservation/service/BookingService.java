@@ -16,6 +16,19 @@ public class BookingService {
         return this.bookingDao.getAllBookings();
     }
 
+    public void displayUserBookings() {
+        List<Booking> bookings = this.bookingDao.getAllBookings();
+
+        if(bookings.isEmpty()) {
+            System.out.println("Sorry, you have no any bookings yet!");
+        } else {
+            bookings.forEach((booking -> {
+                int bookingNumber = bookings.indexOf(booking) + 1;
+                System.out.println("Booking №" + bookingNumber + ": " + booking);
+            }));
+        }
+    }
+
     public boolean addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
         Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
         return this.bookingDao.addBooking(newCreatedBooking);
