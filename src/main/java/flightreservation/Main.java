@@ -1,10 +1,9 @@
 package flightreservation;
 
 import flightreservation.controller.FlightsController;
-import flightreservation.models.Flight;
 
 
-import java.util.List;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,10 +12,17 @@ public class Main {
 
         FlightsController flightsController = new FlightsController();
 
-        List<Flight> flights = flightsController.generateListOfFlight();
+//        List<Flight> flights = flightsController.generateListOfFlight();
+        if (flightsController.loadFlightsFromDB()){
+            flightsController.displayFlightsForToday();
+        }
+//        List<Flight> flights = flightsController.loadFlightsFromDB();
 //        List<Flight> flightsToday = flightsController.getFlightsForToday();
-        flightsController.displayFlightsForToday();
+        flightsController.getAllFlights();
 
         System.out.println(flightsController.getFlightById("FL20000"));
+        flightsController.searchFlights("Seoul", LocalDate.of(2025,12, 12), 3);
+
     }
+
 }

@@ -4,6 +4,8 @@ import flightreservation.enums.Destination;
 import flightreservation.models.Flight;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -48,19 +50,18 @@ public class FlightDao {
         return null;
     }
 
-    public void loadFlightsFromDB() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(DB_PATH + "flights.dat"))) {
+    public boolean loadFlightsFromDB() {
+        try (ObjectInputStream inputStream = new ObjectInputStream(Files.newInputStream(Paths.get(DB_PATH + "flights.dat")))) {
             flightsList = (List<Flight>) inputStream.readObject();
-        } catch (IOException ex) {
+            return true;
+        } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            return false;
         }
-
     }
 
     public boolean saveFlightsToDB(List<Flight> flightsList) {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(DB_PATH + "flights.dat"))) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(Files.newOutputStream(Paths.get(DB_PATH + "flights.dat")))) {
             outputStream.writeObject(flightsList);
             return true;
         } catch (IOException ex) {
@@ -68,8 +69,5 @@ public class FlightDao {
             return false;
         }
     }
-
-    public void updateFlight(Flight flight) {
-
-    }
 }
+

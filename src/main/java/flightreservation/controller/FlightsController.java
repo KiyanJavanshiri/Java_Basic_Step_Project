@@ -3,6 +3,7 @@ package flightreservation.controller;
 import flightreservation.models.Flight;
 import flightreservation.service.FlightsService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class FlightsController {
@@ -26,6 +27,22 @@ public class FlightsController {
 
     public Flight getFlightById(String id){
         return flightsService.getFlightById(id);
+    }
+
+    public void searchFlights (String destination, LocalDate dateOfFlight, int tickets){
+        flightsService.searchFlights(destination, dateOfFlight, tickets);
+    }
+
+    public boolean loadFlightsFromDB() {
+        return flightsService.loadFlightsFromDB();
+    }
+
+    public boolean saveFlightsToDB(List<Flight> flightsList){
+        return flightsService.saveFlightsToDB(flightsList);
+    }
+
+    public boolean updateFlight(Flight updatedFlight){
+        return flightsService.updateFlight(updatedFlight);
     }
 
 }
