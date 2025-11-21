@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class FlightDao {
     public List<Flight> flightsList = new ArrayList<>();
-    private final String DB_PATH = "flightreservation/database/";
+    private final String DB_PATH = "src/main/java/flightreservation/database/";
 
     public List<Flight> generateListOfFlight() {
         int QUANTITY_FLIGHTS_PER_DAY = 20;
