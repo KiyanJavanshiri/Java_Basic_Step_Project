@@ -30,7 +30,6 @@ public class FlightDao {
                 flightsList.add(flight);
             }
         }
-
                return flightsList;
     }
 

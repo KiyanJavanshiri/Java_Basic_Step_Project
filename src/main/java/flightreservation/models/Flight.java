@@ -73,11 +73,13 @@ public class Flight {
 
     @Override
     public String toString() {
-        return "Flight: id - " + id +
-                ", from " + departure +
-                " to " + destination +
-                "\n        Date: " + flightDate +
-                "\n        Time: " + flightTime.format(DateTimeFormatter.ofPattern("HH:mm")) +
-                "\n        Available Seats: " + availableSeats;
+        return String.format("%-8s Departure: %-8s Arrival: %-15s Date: %-12s Time: %-6s Avalable seats: %-5d",
+                id,
+                departure,
+                destination,
+                flightDate,
+                flightTime.format(DateTimeFormatter.ofPattern("HH:mm")),
+                availableSeats
+        );
     }
 }

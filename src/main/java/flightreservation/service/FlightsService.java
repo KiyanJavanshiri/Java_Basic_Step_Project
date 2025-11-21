@@ -4,8 +4,9 @@ import flightreservation.dao.FlightDao;
 import flightreservation.models.Flight;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FlightsService {
 
@@ -19,10 +20,27 @@ public class FlightsService {
         return flightDao.generateListOfFlight();
     }
 
-    public List<Flight> getFlightsForToday() {
-        return flightDao.getAllFlights().stream()
-                .filter(flight -> flight.getFlightDate().equals(LocalDate.now()))
-                .collect(Collectors.toList());
+    public List<Flight> getAllFlights(){
+        return flightDao.getAllFlights();
+    }
+
+    public void displayFlightsForToday() {
+        if (flightDao.getAllFlights().isEmpty()) {
+            System.out.println("Flights for today is not available or you should generate list of flights!");
+        } else {
+            AtomicInteger counter = new AtomicInteger();
+            System.out.printf("List of flights for %s:\n", LocalDate.now());
+            flightDao.getAllFlights().stream()
+                    .filter(flight -> flight.getFlightDate().equals(LocalDate.now()))
+                    .sorted(Comparator.comparing(Flight::getFlightTime))
+                    .forEach(flight -> System.out.printf("%d) %s%n", counter.incrementAndGet(), flight));
+
+        }
+
+    }
+
+    public Flight getFlightById(String id){
+        return flightDao.getFlightById(id);
     }
 
 

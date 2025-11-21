@@ -16,8 +16,16 @@ public class FlightsController {
         return flightsService.generateListOfFlight();
     }
 
-    public List<Flight> getFlightsForToday() {
-        return flightsService.getFlightsForToday();
+    public List<Flight> getAllFlights(){
+        return flightsService.getAllFlights();
+    }
+
+    public void displayFlightsForToday() {
+        flightsService.displayFlightsForToday();
+    }
+
+    public Flight getFlightById(String id){
+        return flightsService.getFlightById(id);
     }
 
 }

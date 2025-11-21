@@ -19,11 +19,9 @@ public class Main {
         FlightsController flightsController = new FlightsController();
 
         List<Flight> flights = flightsController.generateListOfFlight();
-        List<Flight> flightsToday = flights.stream()
-                .filter(flight -> flight.getFlightDate().equals(LocalDate.now()))
-                .collect(Collectors.toList());
-        flightsToday.forEach(flight -> System.out.println(flight));
+//        List<Flight> flightsToday = flightsController.getFlightsForToday();
+        flightsController.displayFlightsForToday();
 
-
+        System.out.println(flightsController.getFlightById("FL1200"));
     }
 }
