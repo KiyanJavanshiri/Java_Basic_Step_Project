@@ -2,11 +2,12 @@ package flightreservation.models;
 
 import flightreservation.enums.Destination;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Flight {
+public class Flight implements Serializable {
     private String id;
     private String departure;
     private Destination destination;

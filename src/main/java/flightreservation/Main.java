@@ -1,15 +1,10 @@
 package flightreservation;
 
 import flightreservation.controller.FlightsController;
-import flightreservation.enums.Destination;
 import flightreservation.models.Flight;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,6 +17,6 @@ public class Main {
 //        List<Flight> flightsToday = flightsController.getFlightsForToday();
         flightsController.displayFlightsForToday();
 
-        System.out.println(flightsController.getFlightById("FL1200"));
+        System.out.println(flightsController.getFlightById("FL20000"));
     }
 }
