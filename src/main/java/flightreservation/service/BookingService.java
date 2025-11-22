@@ -49,7 +49,7 @@ public class BookingService {
             this.bookingDao.saveToFile();
             System.out.println("Booking added successfully");
         } else {
-            System.out.println("Something went wrong");
+            System.out.println("Something went wrong in creating booking");
         }
         return isAdded;
     }

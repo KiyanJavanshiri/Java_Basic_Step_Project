@@ -72,7 +72,7 @@ public class Main {
                     bookingController.addBooking(passengers, owner, flights.get(1));
                     break;
                 case 2:
-                    System.out.println("enter flight id:");
+                    System.out.println("enter booking id:");
                     int bookingId = scanner.nextInt();
                     bookingController.deleteBooking(bookingId);
                     break;

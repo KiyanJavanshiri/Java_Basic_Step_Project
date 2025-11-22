@@ -10,10 +10,6 @@ import java.util.List;
 public class BookingController {
     private BookingService bookingService = new BookingService();
 
-    public List<Booking> getAllBookings() {
-        return this.bookingService.getAllBookings();
-    }
-
     public void displayUserBookings(String firstName, String lastName) {
         this.bookingService.displayUserBookings(firstName, lastName);
     }
