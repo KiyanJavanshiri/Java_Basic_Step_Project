@@ -36,7 +36,7 @@ public class BookingService {
         } else {
             bookings.forEach((booking -> {
                 int bookingNumber = bookings.indexOf(booking) + 1;
-                System.out.println("Booking №" + bookingNumber + ": " + booking);
+                System.out.println("Booking №" + bookingNumber + ": " + booking + "\n");
             }));
         }
     }

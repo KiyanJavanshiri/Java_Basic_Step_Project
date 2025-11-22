@@ -63,11 +63,16 @@ public final class Booking implements Serializable {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", flight=" + flight +
-                ", passengers=" + passengers +
-                ", bookingOwner=" + bookingOwner +
-                '}';
+        String prettyFormattedPassengers = "";
+        for (Passenger passenger : passengers) {
+            int passengerIndex = passengers.indexOf(passenger);
+            prettyFormattedPassengers += "     " + (passengerIndex + 1) + ". " + passenger + (passengerIndex == passengers.size() - 1 ? "" : "\n");
+        }
+        return "\n" +
+                "   ID: " + id + "\n" +
+                "   Flight: " + flight + "\n" +
+                "   Passengers: " + "    \n" + prettyFormattedPassengers + "\n" +
+                "   Booking Owner: " + bookingOwner
+                ;
     }
 }

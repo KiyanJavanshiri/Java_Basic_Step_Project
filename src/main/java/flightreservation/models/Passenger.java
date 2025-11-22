@@ -39,10 +39,9 @@ public class Passenger implements Serializable {
 
     @Override
     public String toString() {
-        return "Passenger{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", id=" + id +
-                '}';
+        return "FirstName: " + firstName  +
+                ", LastName: " + lastName +
+                ", ID: " + id
+                ;
     }
 }
