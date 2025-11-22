@@ -35,7 +35,10 @@ public class Main {
             int commandNumber = scanner.nextInt();
             scanner.nextLine();
 
-            if(commandNumber == 4) break;
+            if(commandNumber == 4) {
+                flightsController.saveFlightsToDB(flightsController.getAllFlights());
+                break;
+            }
 
             switch (commandNumber) {
                 case 1:
