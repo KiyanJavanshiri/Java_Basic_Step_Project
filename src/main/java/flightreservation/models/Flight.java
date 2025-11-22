@@ -74,7 +74,7 @@ public class Flight implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%-8s Departure: %-8s Arrival: %-15s Date: %-12s Time: %-6s Avalable seats: %-5d",
+        return String.format("%-8s Departure: %-8s Arrival: %-15s Date: %-12s Time: %-6s Available seats: %-5d",
                 id,
                 departure,
                 destination,

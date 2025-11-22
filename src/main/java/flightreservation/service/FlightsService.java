@@ -77,4 +77,17 @@ public class FlightsService {
         }
         return false;
     }
+
+    public boolean updateFlight(String id, int bookedTickets) {
+        Flight flight = flightDao.getFlightById(id);
+
+        if (flight != null && flight.getAvailableSeats() - bookedTickets > -1) {
+            flight.setAvailableSeats(flight.getAvailableSeats() - bookedTickets);
+            System.out.printf("Congratulation! Tickets is booked. Information about flight %s updated at flight list!\n", id);
+            return true;
+        } else {
+            System.out.printf("Please check information for booking tickets to flight %s!\n", id);
+            return false;
+        }
+    }
 }

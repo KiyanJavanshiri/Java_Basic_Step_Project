@@ -45,4 +45,8 @@ public class FlightsController {
         return flightsService.updateFlight(updatedFlight);
     }
 
+    public boolean updateFlight(String id, int bookedTickets) {
+        return flightsService.updateFlight(id, bookedTickets);
+    }
+
 }
