@@ -18,11 +18,11 @@ public class BookingController {
         this.bookingService.displayUserBookings(firstName, lastName);
     }
 
-    public void addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
-        this.bookingService.addBooking(passengers, bookingOwner, flight);
+    public boolean addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
+        return this.bookingService.addBooking(passengers, bookingOwner, flight);
     }
 
-    public void deleteBooking(int id) {
-        this.bookingService.deleteBooking(id);
+    public boolean deleteBooking(int id) {
+        return this.bookingService.deleteBooking(id);
     }
 }

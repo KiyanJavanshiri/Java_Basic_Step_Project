@@ -41,7 +41,7 @@ public class BookingService {
         }
     }
 
-    public void addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
+    public boolean addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
         // decrementing flight seats
         Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
         boolean isAdded = this.bookingDao.addBooking(newCreatedBooking);
@@ -51,17 +51,24 @@ public class BookingService {
         } else {
             System.out.println("Something went wrong");
         }
+        return isAdded;
     }
 
-    public void deleteBooking(int id) {
-        Booking foundedBooking = this.getAllBookings().stream().filter((booking -> booking.getId() == id)).findFirst().orElseThrow(() -> new BookingNotFoundException());
-        boolean isDeleted = this.bookingDao.deleteBooking(foundedBooking);
-        if(isDeleted) {
-            // incrementing flight seats
-            this.bookingDao.saveToFile();
-            System.out.println("Booking with id " + id + " was deleted");
-        } else {
-            System.out.println("Something went wrong");
+    public boolean deleteBooking(int id) {
+        try {
+            Booking foundedBooking = this.getAllBookings().stream().filter((booking -> booking.getId() == id)).findFirst().orElseThrow(() -> new BookingNotFoundException());
+            boolean isDeleted = this.bookingDao.deleteBooking(foundedBooking);
+            if(isDeleted) {
+                // incrementing flight seats
+                this.bookingDao.saveToFile();
+                System.out.println("Booking with id " + id + " was deleted");
+            } else {
+                System.out.println("Something went wrong in deleting booking");
+            }
+            return isDeleted;
+        } catch (BookingNotFoundException ex) {
+            System.out.println("Failing on founding booking: " + ex.getMessage());
+            return false;
         }
     }
 }
