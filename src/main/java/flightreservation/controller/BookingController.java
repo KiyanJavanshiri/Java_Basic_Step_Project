@@ -1,6 +1,5 @@
 package flightreservation.controller;
 
-import flightreservation.models.Booking;
 import flightreservation.models.Flight;
 import flightreservation.models.Passenger;
 import flightreservation.service.BookingService;
@@ -8,7 +7,11 @@ import flightreservation.service.BookingService;
 import java.util.List;
 
 public class BookingController {
-    private BookingService bookingService = new BookingService();
+    private BookingService bookingService;
+
+    public BookingController(FlightsController flightsController) {
+        bookingService = new BookingService(flightsController);
+    }
 
     public void displayUserBookings(String firstName, String lastName) {
         this.bookingService.displayUserBookings(firstName, lastName);

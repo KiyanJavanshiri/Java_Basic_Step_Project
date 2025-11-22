@@ -43,6 +43,7 @@ public class BookingDao {
             System.out.println("DB is empty");
             this.bookings = new ArrayList<>();
         } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Я ошибка");
             System.out.println("Failed to reading bookings: " + ex.getMessage());
         }
     }
