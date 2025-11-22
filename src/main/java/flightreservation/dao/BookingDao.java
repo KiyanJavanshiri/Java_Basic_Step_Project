@@ -27,7 +27,7 @@ public class BookingDao {
     }
 
     private void init() {
-        String filePath = "src/main/java/flightreservation/db/";
+        String filePath = "src/main/java/flightreservation/database/";
         String fileName = "bookings.dat";
         File file = new File(filePath + fileName);
 
@@ -48,7 +48,7 @@ public class BookingDao {
     }
 
     public void saveToFile() {
-        String filePath = "src/main/java/flightreservation/db/";
+        String filePath = "src/main/java/flightreservation/database/";
         String fileName = "bookings.dat";
         try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath + fileName))) {
             outputStream.writeObject(bookings);
