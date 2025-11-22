@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class BookingService {
     private BookingDao bookingDao = new BookingDao();
+    private FlightsService flightsService = new FlightsService();
 
     public List<Booking> getAllBookings() {
         return this.bookingDao.getAllBookings();
@@ -42,14 +43,15 @@ public class BookingService {
     }
 
     public boolean addBooking(List<Passenger> passengers, Passenger bookingOwner, Flight flight) {
-        // decrementing flight seats
-        Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
-        boolean isAdded = this.bookingDao.addBooking(newCreatedBooking);
-        if(isAdded) {
-            this.bookingDao.saveToFile();
-            System.out.println("Booking added successfully");
-        } else {
-            System.out.println("Something went wrong in creating booking");
+        boolean isAdded = false;
+        if(flightsService.updateFlight(flight.getId(), -passengers.size())) {
+            Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
+            isAdded = this.bookingDao.addBooking(newCreatedBooking);
+            if(isAdded) {
+                this.bookingDao.saveToFile();
+            } else {
+                System.out.println("Something went wrong in creating booking");
+            }
         }
         return isAdded;
     }
@@ -59,7 +61,7 @@ public class BookingService {
             Booking foundedBooking = this.getAllBookings().stream().filter((booking -> booking.getId() == id)).findFirst().orElseThrow(() -> new BookingNotFoundException());
             boolean isDeleted = this.bookingDao.deleteBooking(foundedBooking);
             if(isDeleted) {
-                // incrementing flight seats
+                flightsService.updateFlight(foundedBooking.getFlight().getId(), +foundedBooking.getPassengers().size());
                 this.bookingDao.saveToFile();
                 System.out.println("Booking with id " + id + " was deleted");
             } else {
