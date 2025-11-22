@@ -1,4 +1,4 @@
-package flightreservation;
+package flightreservation.exceptions;
 
 public class BookingNotFoundException extends RuntimeException {
     public BookingNotFoundException() {

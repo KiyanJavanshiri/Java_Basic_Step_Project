@@ -4,7 +4,7 @@ import flightreservation.dao.BookingDao;
 import flightreservation.models.Booking;
 import flightreservation.models.Flight;
 import flightreservation.models.Passenger;
-import flightreservation.BookingNotFoundException;
+import flightreservation.exceptions.BookingNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
