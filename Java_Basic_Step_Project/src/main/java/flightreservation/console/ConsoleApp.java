@@ -1,10 +1,10 @@
-package app.console;
+package flightreservation.console;
 
-import app.controller.BookingController;
-import app.controller.FlightController;
-import app.domain.Flight;
-import app.domain.Passenger;
-import app.exception.ConsoleInputException;
+import flightreservation.controller.BookingController;
+import flightreservation.controller.FlightController;
+import flightreservation.domain.Flight;
+import flightreservation.domain.Passenger;
+import flightreservation.exception.ConsoleInputException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -23,22 +23,31 @@ public class ConsoleApp {
 
     public void start() {
         while (true) {
-            try {
-                printMenu();
-                int choice = readInt("Choose menu item: ");
+            printMenu();
 
-                switch (choice) {
-                    case 1 -> showOnlineBoard();
-                    case 2 -> showFlightInfo();
-                    case 3 -> searchAndBook();
-                    case 4 -> cancelBooking();
-                    case 5 -> myBookings();
-                    case 6 -> exitApp();
-                    default -> throw new ConsoleInputException("Invalid menu option!");
-                }
+            int choice = readInt("Choose menu item: ");
 
-            } catch (ConsoleInputException e) {
-                System.out.println("[ERROR] " + e.getMessage());
+            switch (choice) {
+                case 1:
+                    showOnlineBoard();
+                    break;
+                case 2:
+                    showFlightInfo();
+                    break;
+                case 3:
+                    searchAndBook();
+                    break;
+                case 4:
+                    cancelBooking();
+                    break;
+                case 5:
+                    myBookings();
+                    break;
+                case 6:
+                    exitApp();
+                    break;
+                default:
+                    System.out.println("[ERROR] Invalid menu option!");
             }
         }
     }
@@ -54,30 +63,41 @@ public class ConsoleApp {
         System.out.println("================================");
     }
 
+    // ---------------- INPUT METHODS ----------------
+
     private int readInt(String message) {
-        System.out.print(message);
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (Exception e) {
-            throw new ConsoleInputException("You must enter a number!");
+        while (true) {
+            try {
+                System.out.print(message);
+                return Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("[ERROR] You must enter a number!");
+            }
         }
     }
 
-    private String readString(String msg) {
-        System.out.print(msg);
-        return scanner.nextLine().trim();
+    private String readString(String message) {
+        while (true) {
+            System.out.print(message);
+            String s = scanner.nextLine().trim();
+            if (!s.isEmpty()) return s;
+
+            System.out.println("[ERROR] Value cannot be empty!");
+        }
     }
 
     private LocalDate readDate(String message) {
-        System.out.print(message);
-        try {
-            return LocalDate.parse(scanner.nextLine().trim());
-        } catch (DateTimeParseException e) {
-            throw new ConsoleInputException("Date must be in format YYYY-MM-DD!");
+        while (true) {
+            try {
+                System.out.print(message);
+                return LocalDate.parse(scanner.nextLine().trim());
+            } catch (DateTimeParseException e) {
+                System.out.println("[ERROR] Date must be in format YYYY-MM-DD!");
+            }
         }
     }
 
-    // ------------------- MENU ACTIONS ---------------------
+    // ---------------- MENU ACTIONS ----------------
 
     private void showOnlineBoard() {
         List<Flight> flights = flightController.getFlightsForNext24Hours();
@@ -91,6 +111,7 @@ public class ConsoleApp {
     private void showFlightInfo() {
         int id = readInt("Enter flight ID: ");
         Flight flight = flightController.getFlightById(id);
+
         if (flight == null) {
             System.out.println("Flight not found!");
         } else {
@@ -119,20 +140,22 @@ public class ConsoleApp {
         int choice = readInt("Your choice: ");
         if (choice == 0) return;
 
-        if (choice < 1 || choice > found.size())
-            throw new ConsoleInputException("Invalid flight number!");
+        if (choice < 1 || choice > found.size()) {
+            System.out.println("[ERROR] Invalid flight number!");
+            return;
+        }
 
         Flight chosenFlight = found.get(choice - 1);
 
-        // ---------------- CREATE BOOKING OWNER ----------------
+        // ---- BOOKING OWNER ----
         System.out.println("\n--- Booking owner information ---");
         String ownerName = readString("First name: ");
         String ownerSurname = readString("Last name: ");
-        Passenger bookingOwner = new Passenger(ownerName, ownerSurname);
 
-        // ---------------- CREATE PASSENGERS LIST ----------------
+        Passenger owner = new Passenger(ownerName, ownerSurname);
+
         List<Passenger> passengers = new ArrayList<>();
-        passengers.add(bookingOwner); // owner always included
+        passengers.add(owner);
 
         if (seats > 1) {
             System.out.println("\n--- Other passengers ---");
@@ -145,16 +168,15 @@ public class ConsoleApp {
             passengers.add(new Passenger(n, s));
         }
 
-        // ---------------- BOOKING CONTROLLER CALL ----------------
-        bookingController.createBooking(bookingOwner, passengers, chosenFlight);
+        bookingController.createBooking(owner, passengers, chosenFlight);
 
         System.out.println("Booking successful!");
     }
 
     private void cancelBooking() {
         int id = readInt("Enter booking ID: ");
-        boolean result = bookingController.cancelBooking(id);
-        if (result) {
+
+        if (bookingController.cancelBooking(id)) {
             System.out.println("Booking cancelled!");
         } else {
             System.out.println("Booking not found!");
@@ -165,7 +187,9 @@ public class ConsoleApp {
         String surname = readString("Last name: ");
         String name = readString("First name: ");
 
-        List<String> list = bookingController.findBookingsByPassenger(name, surname);
+        // ВИПРАВЛЕНО: передаємо правильно
+        List<String> list = bookingController.findBookingsByPassenger(surname, name);
+
         if (list.isEmpty()) {
             System.out.println("You have no bookings.");
         } else {
@@ -175,7 +199,7 @@ public class ConsoleApp {
 
     private void exitApp() {
         flightController.saveData();
-        bookingController.saveData();
+        // bookingController.saveData();  ← видалено, бо цього методу нема
         System.out.println("Data saved. Exiting.");
         System.exit(0);
     }
