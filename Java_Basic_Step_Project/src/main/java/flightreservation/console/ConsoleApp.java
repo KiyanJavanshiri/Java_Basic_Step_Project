@@ -63,8 +63,6 @@ public class ConsoleApp {
         System.out.println("================================");
     }
 
-    // ---------------- INPUT METHODS ----------------
-
     private int readInt(String message) {
         while (true) {
             try {
@@ -96,8 +94,6 @@ public class ConsoleApp {
             }
         }
     }
-
-    // ---------------- MENU ACTIONS ----------------
 
     private void showOnlineBoard() {
         List<Flight> flights = flightController.getFlightsForNext24Hours();
@@ -147,7 +143,6 @@ public class ConsoleApp {
 
         Flight chosenFlight = found.get(choice - 1);
 
-        // ---- BOOKING OWNER ----
         System.out.println("\n--- Booking owner information ---");
         String ownerName = readString("First name: ");
         String ownerSurname = readString("Last name: ");
@@ -187,7 +182,6 @@ public class ConsoleApp {
         String surname = readString("Last name: ");
         String name = readString("First name: ");
 
-        // ВИПРАВЛЕНО: передаємо правильно
         List<String> list = bookingController.findBookingsByPassenger(surname, name);
 
         if (list.isEmpty()) {
@@ -199,7 +193,6 @@ public class ConsoleApp {
 
     private void exitApp() {
         flightController.saveData();
-        // bookingController.saveData();  ← видалено, бо цього методу нема
         System.out.println("Data saved. Exiting.");
         System.exit(0);
     }
