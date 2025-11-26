@@ -92,5 +92,6 @@ public class Main {
 //        flightsController.searchFlights("Seoul", LocalDate.of(2025,12, 12), 3);
 //        flightsController.updateFlight("FL0040", 3);
 //        System.out.println(flightsController.getFlightById("FL0040"));
+//        bookingController.saveToFile();
     }
 }
