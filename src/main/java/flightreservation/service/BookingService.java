@@ -53,7 +53,7 @@ public class BookingService {
             Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
             isAdded = this.bookingDao.addBooking(newCreatedBooking);
             if(isAdded) {
-                this.bookingDao.saveToFile();
+                System.out.println("booking was created successfully");
             } else {
                 System.out.println("Something went wrong in creating booking");
             }
@@ -67,7 +67,6 @@ public class BookingService {
             boolean isDeleted = this.bookingDao.deleteBooking(foundedBooking);
             if(isDeleted) {
                 flightsController.updateFlight(foundedBooking.getFlight().getId(), -foundedBooking.getPassengers().size());
-                this.bookingDao.saveToFile();
                 System.out.println("Booking with id " + id + " was deleted");
             } else {
                 System.out.println("Something went wrong in deleting booking");
@@ -77,5 +76,9 @@ public class BookingService {
             System.out.println("Failing on founding booking: " + ex.getMessage());
             return false;
         }
+    }
+
+    public void saveToFile() {
+        this.bookingDao.saveToFile();
     }
 }

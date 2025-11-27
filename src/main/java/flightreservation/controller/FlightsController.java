@@ -29,8 +29,8 @@ public class FlightsController {
         return flightsService.getFlightById(id);
     }
 
-    public void searchFlights (String destination, LocalDate dateOfFlight, int tickets){
-        flightsService.searchFlights(destination, dateOfFlight, tickets);
+    public List<Flight> searchFlights (String destination, LocalDate dateOfFlight, int tickets){
+        return flightsService.searchFlights(destination, dateOfFlight, tickets);
     }
 
     public boolean loadFlightsFromDB() {

@@ -24,4 +24,6 @@ public class BookingController {
     public boolean deleteBooking(int id) {
         return this.bookingService.deleteBooking(id);
     }
+
+    public void saveToFile() { this.bookingService.saveToFile(); }
 }
