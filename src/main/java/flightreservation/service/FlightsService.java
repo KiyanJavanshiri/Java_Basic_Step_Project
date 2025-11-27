@@ -44,7 +44,7 @@ public class FlightsService {
         return flightDao.getFlightById(id);
     }
 
-    public void searchFlights(String destination, LocalDate dateOfFlight, int tickets) {
+    public List<Flight> searchFlights(String destination, LocalDate dateOfFlight, int tickets) {
         AtomicInteger counter = new AtomicInteger();
 
         System.out.printf("List of flights to %s for %s with available %d tickets:\n", destination, dateOfFlight, tickets);
@@ -56,6 +56,7 @@ public class FlightsService {
         if (!currentDateFlights.isEmpty()) {
             currentDateFlights.forEach(flight -> System.out.printf("%d) %s%n", counter.incrementAndGet(), flight));
         } else System.out.println("Flights or thickets not enough to this destination!");
+        return currentDateFlights;
     }
 
     public boolean loadFlightsFromDB() {
