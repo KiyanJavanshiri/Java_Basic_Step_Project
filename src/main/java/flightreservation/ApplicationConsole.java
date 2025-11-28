@@ -17,11 +17,17 @@ public class ApplicationConsole {
         private final BookingController bookingController = new BookingController(flightController);
 
         public void start() {
+            boolean loud = flightController.loadFlightsFromDB();
+            System.out.println(loud);
             while (true) {
+
                 printMenu();
 
                 int choice = nextIntInput("Choose menu item: ");
-
+                if (choice == 6) {
+                    exitApp();
+                    break;
+                }
                 switch (choice) {
                     case 1:
                         showOnlineBoard();
@@ -42,10 +48,7 @@ public class ApplicationConsole {
                         System.out.println("[ERROR] Invalid menu option!");
                 }
 
-                if (choice == 6) {
-                    exitApp();
-                    break;
-                }
+
             }
         }
 
@@ -120,7 +123,15 @@ public class ApplicationConsole {
                 return;
             }
 
-            int seats = nextIntInput("Number of passengers: ");
+            int seats;
+            while (true) {
+                seats = nextIntInput("Number of passengers: ");
+                if(seats <= 0) {
+                    System.out.println("enter positive number");
+                } else {
+                    break;
+                }
+            }
 
             List<Flight> found = flightController.searchFlights(destination, date, seats);
 
@@ -184,6 +195,7 @@ public class ApplicationConsole {
         private void exitApp() {
 
             flightController.saveFlightsToDB(flightController.getAllFlights());
+            bookingController.saveToFile();
             System.out.println("Data saved. Exiting.");
 
         }
