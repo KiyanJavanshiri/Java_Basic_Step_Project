@@ -31,14 +31,14 @@ public class BookingServiceTests {
     @Test
     void testDisplayUserBookings() {
         assertDoesNotThrow(() ->
-                bookingService.displayUserBookings("John", "Doe")
+                bookingService.displayUserBookings("John", "Kawa")
         );
     }
 
     @Test
     void testAddBooking() {
         Flight flight = flightsController.getAllFlights().get(0);
-        Passenger owner = new Passenger("John", "Doe");
+        Passenger owner = new Passenger("John", "Kawa");
 
         assertDoesNotThrow(() ->
                 bookingService.addBooking(List.of(owner), owner, flight)

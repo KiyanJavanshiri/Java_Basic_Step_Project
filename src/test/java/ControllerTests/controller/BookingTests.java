@@ -25,13 +25,13 @@ public class BookingTests {
     @Test
     void testDisplayUserBookings() {
         assertDoesNotThrow(() ->
-                bookingController.displayUserBookings("John", "Doe"));
+                bookingController.displayUserBookings("John", "Kawa"));
     }
 
     @Test
     void testAddBooking() {
         Flight flight = flightsController.getAllFlights().get(0);
-        Passenger owner = new Passenger("John", "Doe");
+        Passenger owner = new Passenger("John", "Kawa");
 
         boolean result = bookingController.addBooking(List.of(owner), owner, flight);
 
