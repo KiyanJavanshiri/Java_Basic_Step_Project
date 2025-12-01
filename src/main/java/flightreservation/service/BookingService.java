@@ -53,7 +53,7 @@ public class BookingService {
             Booking newCreatedBooking = new Booking(flight, passengers, bookingOwner);
             isAdded = this.bookingDao.addBooking(newCreatedBooking);
             if(isAdded) {
-                System.out.println("booking was created successfully");
+                System.out.println("Booking was created successfully");
             } else {
                 System.out.println("Something went wrong in creating booking");
             }

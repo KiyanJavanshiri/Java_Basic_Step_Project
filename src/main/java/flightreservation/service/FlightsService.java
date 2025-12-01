@@ -47,15 +47,12 @@ public class FlightsService {
     public List<Flight> searchFlights(String destination, LocalDate dateOfFlight, int tickets) {
         AtomicInteger counter = new AtomicInteger();
 
-        System.out.printf("List of flights to %s for %s with available %d tickets:\n", destination, dateOfFlight, tickets);
         List<Flight> currentDateFlights = flightDao.getAllFlights().stream()
                 .filter(flight -> flight.getDestination().toString().equalsIgnoreCase(destination) &&
                         flight.getFlightDate().equals(dateOfFlight) &&
                         flight.getAvailableSeats() >= tickets)
                 .collect(Collectors.toList());
-        if (!currentDateFlights.isEmpty()) {
-            currentDateFlights.forEach(flight -> System.out.printf("%d) %s%n", counter.incrementAndGet(), flight));
-        } else System.out.println("Flights or thickets not enough to this destination!");
+
         return currentDateFlights;
     }
 
@@ -84,10 +81,8 @@ public class FlightsService {
 
         if (flight != null && flight.getAvailableSeats() - bookedTickets > -1) {
             flight.setAvailableSeats(flight.getAvailableSeats() - bookedTickets);
-            System.out.printf("Congratulation! Tickets is booked. Information about flight %s updated at flight list!\n", id);
             return true;
         } else {
-            System.out.printf("Please check information for booking tickets to flight %s!\n", id);
             return false;
         }
     }

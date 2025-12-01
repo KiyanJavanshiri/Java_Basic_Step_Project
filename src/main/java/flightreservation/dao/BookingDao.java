@@ -38,9 +38,7 @@ public class BookingDao {
 
         try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath + fileName))) {
             bookings = (List<Booking>) inputStream.readObject();
-            System.out.println("File read");
         } catch(EOFException ex) {
-            System.out.println("DB is empty");
             this.bookings = new ArrayList<>();
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Failed to reading bookings: " + ex.getMessage());
