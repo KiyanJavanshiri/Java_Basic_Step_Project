@@ -8,19 +8,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 public class ApplicationConsole {
-
-
         private final Scanner scanner = new Scanner(System.in);
 
         private final FlightsController flightController = new FlightsController();
         private final BookingController bookingController = new BookingController(flightController);
 
         public void start() {
-            boolean loud = flightController.loadFlightsFromDB();
-            System.out.println(loud);
-            while (true) {
+            flightController.loadFlightsFromDB();
 
+            while (true) {
                 printMenu();
 
                 int choice = nextIntInput("Choose menu item: ");
@@ -47,8 +45,6 @@ public class ApplicationConsole {
                     default:
                         System.out.println("[ERROR] Invalid menu option!");
                 }
-
-
             }
         }
 
@@ -146,13 +142,21 @@ public class ApplicationConsole {
             }
             System.out.println("0. Return to menu");
 
-            int choice = nextIntInput("Your choice: ");
-            if (choice == 0) return;
+            int choice;
 
-            if (choice < 1 || choice > found.size()) {
-                System.out.println("[ERROR] Invalid flight number!");
-                return;
+            while(true) {
+                choice = nextIntInput("Your choice: ");
+
+                if(choice == 0) break;
+
+                if (choice < 1 || choice > found.size()) {
+                    System.out.println("[ERROR] Invalid flight number!");
+                } else {
+                    break;
+                }
             }
+
+            if(choice == 0) return;
 
             Flight chosenFlight = found.get(choice - 1);
 
@@ -175,8 +179,6 @@ public class ApplicationConsole {
                 }
             }
             bookingController.addBooking(passengers, owner, chosenFlight);
-
-            System.out.println("Booking operation requested (see controller output).");
         }
 
         private void cancelBooking() {
@@ -197,7 +199,6 @@ public class ApplicationConsole {
             flightController.saveFlightsToDB(flightController.getAllFlights());
             bookingController.saveToFile();
             System.out.println("Data saved. Exiting.");
-
         }
     }
 
