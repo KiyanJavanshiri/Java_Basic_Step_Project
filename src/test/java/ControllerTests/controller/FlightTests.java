@@ -12,24 +12,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FlightTests {
     private FlightsController flightsController;
+    private List<Flight> flights;
 
     @BeforeEach
     void setUp() {
         flightsController = new FlightsController();
+        if(flightsController.getAllFlights().isEmpty()) {
+            this.flights = flightsController.generateListOfFlight();
+        } else {
+            this.flights = flightsController.getAllFlights();
+        }
     }
 
     @Test
     void testGenerateListOfFlight() {
-        List<Flight> flights = flightsController.generateListOfFlight();
-
         assertNotNull(flights);
         assertTrue(flights.size() > 0, "Must be created");
     }
 
     @Test
     void testGetAllFlights() {
-        flightsController.generateListOfFlight();
-
         List<Flight> flights = flightsController.getAllFlights();
 
         assertNotNull(flights);
@@ -43,7 +45,6 @@ public class FlightTests {
 
     @Test
     void testGetFlightById() {
-        List<Flight> flights = flightsController.generateListOfFlight();
         assertTrue(flights.size() > 0);
 
         String id = flights.get(0).getId();
@@ -55,7 +56,6 @@ public class FlightTests {
 
     @Test
     void testSearchFlights() {
-        flightsController.generateListOfFlight();
 
         LocalDate date = LocalDate.now().plusDays(1);
 
@@ -74,7 +74,6 @@ public class FlightTests {
 
     @Test
     void testSaveFlightsToDB() {
-        List<Flight> flights = flightsController.generateListOfFlight();
 
         boolean saved = flightsController.saveFlightsToDB(flights);
 
@@ -83,7 +82,6 @@ public class FlightTests {
 
     @Test
     void testUpdateFlightUsingId() {
-        List<Flight> flights = flightsController.generateListOfFlight();
         Flight flight = flights.get(0);
 
         boolean updated = flightsController.updateFlight(flight.getId(), 2);

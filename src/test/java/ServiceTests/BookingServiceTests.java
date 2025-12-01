@@ -18,14 +18,17 @@ public class BookingServiceTests {
 
     private BookingService bookingService;
     private FlightsController flightsController;
+    private List<Flight> flight;
 
     @BeforeEach
     void setUp() {
         flightsController = new FlightsController();
-        flightsController.generateListOfFlight();
         bookingService = new BookingService(flightsController);
+        if(flightsController.getAllFlights().isEmpty()) {
+            this.flight = flightsController.generateListOfFlight();
+        }
     }
-
+    
     @Test
     void testGetAllBookings() {
         assertNotNull(bookingService.getAllBookings());

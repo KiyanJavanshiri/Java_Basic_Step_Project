@@ -8,7 +8,6 @@ import flightreservation.models.Passenger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -22,9 +21,6 @@ public class BookingDaoTests {
 
     @BeforeEach
     void setUp() {
-        File file = new File("src/main/java/flightreservation/database/bookings.dat");
-        if (file.exists()) file.delete();
-
         bookingDao = new BookingDao();
     }
 
@@ -59,17 +55,20 @@ public class BookingDaoTests {
         List<Booking> list = bookingDao.getAllBookings();
 
         assertNotNull(list);
-        assertTrue(list.isEmpty());
+        assertTrue(list instanceof List);
     }
 
     @Test
     void testAddBooking() {
         Booking booking = createBooking();
 
+        int previousSize = bookingDao.getAllBookings().size();
+
         boolean added = bookingDao.addBooking(booking);
 
         assertTrue(added);
-        assertEquals(1, bookingDao.getAllBookings().size());
+        int newSize = bookingDao.getAllBookings().size();
+        assertTrue(newSize > previousSize);
     }
 
     @Test

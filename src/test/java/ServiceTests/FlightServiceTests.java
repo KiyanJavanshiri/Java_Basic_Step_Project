@@ -12,11 +12,14 @@ import static org.junit.jupiter.api.AssertionsKt.assertNotNull;
 
 public class FlightServiceTests {
     private FlightsService flightsService;
+    private List<Flight> flight;
 
     @BeforeEach
     void setUp() {
         flightsService = new FlightsService();
-        flightsService.generateListOfFlight();
+        if(flightsService.getAllFlights().isEmpty()) {
+            this.flight = flightsService.generateListOfFlight();
+        }
     }
 
     @Test
