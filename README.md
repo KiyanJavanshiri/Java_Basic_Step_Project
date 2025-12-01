@@ -95,7 +95,7 @@ test/java
 │   └── FlightTests
 ├── DaoTests
 │ ├── BookingDaoTests
-│ └── FlightDaoTests
+│ └── FlightsDaoTests
 ├── ServiceTests
 │ ├── BookingServiceTests
 │ └── FlightServiceTests
