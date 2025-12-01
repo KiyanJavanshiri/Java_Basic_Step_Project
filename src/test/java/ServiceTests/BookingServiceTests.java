@@ -6,7 +6,10 @@ import flightreservation.models.Passenger;
 import flightreservation.service.BookingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import flightreservation.enums.Destination;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,11 +40,18 @@ public class BookingServiceTests {
 
     @Test
     void testAddBooking() {
-        Flight flight = flightsController.getAllFlights().get(0);
+        Flight flight = new Flight(
+                "FL123",
+                Destination.LONDON,
+                LocalDate.of(2025, 1, 1),
+                LocalTime.of(12, 30),
+                150
+        );
         Passenger owner = new Passenger("John", "Kawa");
+        List<Passenger> passengers = List.of(owner);
 
         assertDoesNotThrow(() ->
-                bookingService.addBooking(List.of(owner), owner, flight)
+                bookingService.addBooking(passengers, owner, flight)
         );
     }
 

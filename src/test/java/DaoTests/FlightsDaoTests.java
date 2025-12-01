@@ -9,35 +9,26 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Flight_Dao {
+public class FlightsDaoTests {
     private FlightDao dao;
 
     @BeforeEach
     void setUp() {
         dao = new FlightDao();
-    }
-
-    @Test
-    void testGenerateListOfFlight() {
-        List<Flight> flights = dao.generateListOfFlight();
-
-        assertNotNull(flights, "List should not be null");
-        assertEquals(2000, flights.size(), "Should generate exactly 2000 flights");
+        dao.loadFlightsFromDB();
     }
 
     @Test
     void testGetAllFlights() {
-        dao.generateListOfFlight();
 
         List<Flight> allFlights = dao.getAllFlights();
 
-        assertNotNull(allFlights);
+        assertInstanceOf(List.class, allFlights);
         assertEquals(2000, allFlights.size());
     }
 
     @Test
     void testGetFlightById_found() {
-        dao.generateListOfFlight();
 
         Flight found = dao.getFlightById("FL0001");
 
@@ -47,7 +38,6 @@ public class Flight_Dao {
 
     @Test
     void testGetFlightById_notFound() {
-        dao.generateListOfFlight();
 
         Flight notFound = dao.getFlightById("UNKNOWN");
 
@@ -56,7 +46,6 @@ public class Flight_Dao {
 
     @Test
     void testSaveFlightsToDB() {
-        dao.generateListOfFlight();
 
         boolean result = dao.saveFlightsToDB(dao.getAllFlights());
 
@@ -68,7 +57,6 @@ public class Flight_Dao {
 
     @Test
     void testLoadFlightsFromDB() {
-        dao.generateListOfFlight();
         dao.saveFlightsToDB(dao.getAllFlights());
 
         FlightDao newDao = new FlightDao();

@@ -14,12 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class BookingTests {
     private BookingController bookingController;
     private FlightsController flightsController;
-
+    private Flight testFlight;
     @BeforeEach
     void setUp() {
         flightsController = new FlightsController();
-        flightsController.generateListOfFlight();
+        if (flightsController.getAllFlights().isEmpty()) {
+            flightsController.generateListOfFlight();
+        }
         bookingController = new BookingController(flightsController);
+        testFlight = flightsController.getAllFlights().get(0);
     }
 
     @Test
@@ -30,12 +33,10 @@ public class BookingTests {
 
     @Test
     void testAddBooking() {
-        Flight flight = flightsController.getAllFlights().get(0);
+
         Passenger owner = new Passenger("John", "Kawa");
-
-        boolean result = bookingController.addBooking(List.of(owner), owner, flight);
-
-        assertTrue(result || !result);
+        boolean result = bookingController.addBooking(List.of(owner), owner, testFlight);
+        assertTrue(result);
     }
 
     @Test

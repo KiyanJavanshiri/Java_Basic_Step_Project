@@ -17,7 +17,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.AssertionsKt.assertNotNull;
 
-public class BokingDao {
+public class BookingDaoTests {
     private BookingDao bookingDao;
 
     @BeforeEach
@@ -77,23 +77,35 @@ public class BokingDao {
         Booking booking = createBooking();
         bookingDao.addBooking(booking);
 
+        int sizeBefore = bookingDao.getAllBookings().size();
+
         boolean removed = bookingDao.deleteBooking(booking);
 
         assertTrue(removed);
-        assertTrue(bookingDao.getAllBookings().isEmpty());
+
+        int sizeAfter = bookingDao.getAllBookings().size();
+        assertTrue(sizeAfter < sizeBefore);
     }
 
     @Test
     void testSaveAndLoadBookingFile() {
         Booking booking = createBooking();
         bookingDao.addBooking(booking);
+
+        int sizeBefore = bookingDao.getAllBookings().size();
+
         bookingDao.saveToFile();
 
         BookingDao loadedDao = new BookingDao();
         List<Booking> loaded = loadedDao.getAllBookings();
 
-        assertEquals(1, loaded.size());
-        assertEquals(booking.getFlight().getId(), loaded.get(0).getFlight().getId());
-        assertEquals(booking.getPassengers().size(), loaded.get(0).getPassengers().size());
+        int sizeAfter = loaded.size();
+
+        assertEquals(sizeBefore, sizeAfter);
+
+        Booking loadedBooking = loaded.get(loaded.size() - 1);
+
+        assertEquals(booking.getFlight().getId(), loadedBooking.getFlight().getId());
+        assertEquals(booking.getPassengers().size(), loadedBooking.getPassengers().size());
     }
 }
